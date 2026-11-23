@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>triggerGG.net — Sklep Serwerowy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,700;0,800;0,900;1,800;1,900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #050816;
+      --bg-card: #0a1024;
+      --bg-card-hover: #0e1633;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --text-main: #ffffff;
+      --text-muted: #94a3b8;
+      --green-btn: #22a034;
+      --green-btn-hover: #28b83d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(circle at 18% 0%, rgba(124, 58, 237, 0.24), transparent 42%),
+        radial-gradient(circle at 82% 8%, rgba(14, 165, 233, 0.16), transparent 40%),
+        radial-gradient(circle at 50% 65%, rgba(99, 102, 241, 0.10), transparent 55%);
+    }
+
+    /* TOPBAR */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: rgba(6, 10, 25, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #9333ea);
+      display: grid;
+      place-items: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 16px;
+      transition: transform 0.25s ease;
+    }
+
+    .brand-box:hover .brand-icon {
+      transform: scale(1.08) rotate(-4deg);
+    }
+
+    .brand-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1.1;
+    }
+
+    .brand-online {
+      font-size: 11px;
+      color: #4ade80;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .brand-online::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 8px #4ade80;
+    }
+
+    /* LIVE FEED */
+    .feed-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      flex: 1;
+      max-width: 650px;
+    }
+
+    .feed-item {
+      background: #0d142c;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 126px;
+      flex-shrink: 0;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .feed-item:hover {
+      transform: translateY(-2px);
+      border-color: rgba(139, 92, 246, 0.45);
+      background: #141f42;
+    }
+
+    .feed-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 11px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .feed-meta {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+      overflow: hidden;
+    }
+
+    .feed-user {
+      font-size: 11px;
+      font-weight: 700;
+      color: #f1f5f9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .feed-prod {
+      font-size: 9px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .feed-next-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #0d142c;
+      color: #cbd5e1;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .feed-next-btn:hover {
+      background: #1b2852;
+      color: #fff;
+      transform: scale(1.06);
+    }
+
+    /* TOP RIGHT ACTIONS */
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .steam-btn {
+      background: #101833;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f8fafc;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      padding: 8px 13px;
+      border-radius: 7px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.22s ease;
+    }
+
+    .steam-btn:hover {
+      background: #18244b;
+      border-color: rgba(56, 189, 248, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .icon-btn {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      border-radius: 7px;
+      background: #101833;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all 0.22s ease;
+    }
+
+    .icon-btn:hover {
+      background: #18244b;
+      transform: translateY(-1px);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      min-width: 17px;
+      height: 17px;
+      border-radius: 999px;
+      background: var(--green-btn);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      padding: 0 4px;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 28px 20px 80px;
+    }
+
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 20px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .section-sub {
+      margin-top: 5px;
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-sub span {
+      color: #22c55e;
+      font-weight: 800;
+    }
+
+    /* CATEGORIES */
+    .cat-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .cat-card {
+      position: relative;
+      height: 225px;
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.26s ease, border-color 0.26s ease;
+    }
+
+    .cat-card:hover {
+      transform: translateY(-6px) scale(1.015);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.55);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .cat-coins {
+      background: linear-gradient(155deg, #c026d3 0%, #7e22ce 55%, #4c1d95 100%);
+    }
+
+    .cat-vehicles {
+      background: linear-gradient(155deg, #38bdf8 0%, #2563eb 55%, #1e1b4b 100%);
+    }
+
+    .cat-ranks {
+      background: linear-gradient(155deg, #a855f7 0%, #6d28d9 55%, #3b0764 100%);
+    }
+
+    .cat-unbans {
+      background: linear-gradient(155deg, #06b6d4 0%, #0284c7 55%, #172554 100%);
+    }
+
+    .cat-art {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .cat-card:hover .cat-art {
+      transform: translateY(-5px) scale(1.06);
+    }
+
+    .cat-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 2;
+    }
+
+    .cat-label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .cat-arrow {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.24);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .cat-card:hover .cat-arrow {
+      transform: translateX(3px);
+      background: rgba(255, 255, 255, 0.38);
+    }
+
+    /* BUNDLE CAROUSEL */
+    .bundle-panel {
+      margin-top: 28px;
+      background: linear-gradient(180deg, #090f24 0%, #070b1c 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 155px 1fr 1.05fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .bundle-thumbs-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .thumb-step-btn {
+      width: 100%;
+      height: 24px;
+      border-radius: 6px;
+      background: #0d1530;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 11px;
+      transition: all 0.2s ease;
+    }
+
+    .thumb-step-btn:hover {
+      background: #16224a;
+      color: #fff;
+    }
+
+    .bundle-thumb {
+      width: 100%;
+      height: 54px;
+      border-radius: 8px;
+      background: #0b1229;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 5px;
+      transition: all 0.22s ease;
+    }
+
+    .bundle-thumb:hover {
+      transform: translateX(3px);
+      border-color: rgba(168, 85, 247, 0.5);
+    }
+
+    .bundle-thumb.active {
+      border-color: #a855f7;
+      box-shadow: 0 0 0 1px #a855f7, 0 6px 18px rgba(124, 58, 237, 0.35);
+      background: #111b3d;
+    }
+
+    .bundle-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 225px;
+      transition: transform 0.28s ease;
+    }
+
+    .bundle-stage:hover {
+      transform: scale(1.03);
+    }
+
+    .bundle-info h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .bundle-info p {
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #cbd5e1;
+      max-width: 440px;
+    }
+
+    .bundle-cta-row {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-green {
+      background: var(--green-btn);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 10px 18px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-green:hover {
+      background: var(--green-btn-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(34, 160, 52, 0.35);
+    }
+
+    .btn-cart-square {
+      width: 34px;
+      height: 34px;
+      border-radius: 7px;
+      background: #111936;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-cart-square:hover {
+      background: #1b2854;
+      transform: translateY(-2px);
+    }
+
+    .bundle-price-note {
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.35;
+    }
+
+    .bundle-price-note s {
+      color: #cbd5e1;
+    }
+
+    .bundle-price-note strong {
+      color: #4ade80;
+    }
+
+    /* ITEMS HEADER & FILTERS */
+    .items-section {
+      margin-top: 44px;
+    }
+
+    .filter-bar {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tabs {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      background: none;
+      border: none;
+      color: #64748b;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      padding-bottom: 6px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .filter-tab:hover {
+      color: #cbd5e1;
+    }
+
+    .filter-tab.active {
+      color: #ffffff;
+      border-bottom-color: #ffffff;
+    }
+
+    .sort-select {
+      background: transparent;
+      border: none;
+      color: #cbd5e1;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .sort-select option {
+      background: #0b1229;
+      color: #fff;
+    }
+
+    /* PRODUCTS GRID */
+    .products-grid {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .product-card {
+      position: relative;
+      background: linear-gradient(180deg, #0b1228 0%, #080d1e 100%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 225px;
+      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.24s ease, box-shadow 0.24s ease, background 0.24s ease;
+      cursor: pointer;
+    }
+
+    .product-card:hover,
+    .product-card.expanded {
+      transform: translateY(-5px);
+      background: linear-gradient(180deg, #101938 0%, #0b1128 100%);
+      border-color: rgba(139, 92, 246, 0.45);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    .top-pill {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      padding: 3px 7px;
+      border-radius: 5px;
+    }
+
+    .pill-okazja {
+      background: rgba(234, 179, 8, 0.16);
+      color: #facc15;
+      border: 1px solid rgba(234, 179, 8, 0.35);
+    }
+
+    .pill-polecane {
+      background: rgba(168, 85, 247, 0.18);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+    }
+
+    .mini-cart-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .mini-cart-btn:hover {
+      background: var(--green-btn);
+      color: #fff;
+      border-color: var(--green-btn);
+      transform: scale(1.08);
+    }
+
+    .product-art {
+      width: 100%;
+      height: 118px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 8px;
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .product-card:hover .product-art {
+      transform: scale(1.07) translateY(-3px);
+    }
+
+    .product-meta {
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .product-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #e2e8f0;
+    }
+
+    .product-price {
+      margin-top: 4px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      color: #ffffff;
+    }
+
+    .product-expand {
+      width: 100%;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease, opacity 0.25s ease, margin-top 0.25s ease;
+      text-align: center;
+    }
+
+    .product-card:hover .product-expand,
+    .product-card.expanded .product-expand {
+      max-height: 120px;
+      opacity: 1;
+      margin-top: 10px;
+    }
+
+    .product-desc {
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.35;
+      margin-bottom: 9px;
+    }
+
+    .buy-sm-btn {
+      width: 100%;
+      background: var(--green-btn);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .buy-sm-btn:hover {
+      background: var(--green-btn-hover);
+      transform: translateY(-1px);
+    }
+
+    /* CART DRAWER */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 5, 16, 0.72);
+      backdrop-filter: blur(4px);
+      z-index: 90;
+      display: none;
+      justify-content: flex-end;
+    }
+
+    .drawer-backdrop.open {
+      display: flex;
+    }
+
+    .cart-drawer {
+      width: 100%;
+      max-width: 390px;
+      height: 100%;
+      background: #080e24;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .drawer-head h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .close-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .cart-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cart-row {
+      background: #0d1636;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 9px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .cart-row-title {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .cart-row-price {
+      font-size: 11px;
+      color: #4ade80;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .qty-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .qty-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: #14204a;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .drawer-foot {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 14px;
+    }
+
+    .total-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    /* TOAST */
+    .toast-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 120;
+      background: #0d1636;
+      border: 1px solid rgba(74, 222, 128, 0.45);
+      color: #fff;
+      padding: 11px 16px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.55);
+      display: none;
+    }
+
+    .toast-box.show {
+      display: block;
+    }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    @media (max-width: 1024px) {
+      .feed-wrap {
+        display: none;
+      }
+      .cat-grid,
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .bundle-panel {
+        grid-template-columns: 1fr;
+      }
+      .bundle-thumbs-col {
+        flex-direction: row;
+        overflow-x: auto;
+      }
+      .bundle-thumb {
+        min-width: 110px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .cat-grid,
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+      .steam-btn span {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#" class="brand-box">
+        <div class="brand-icon">T</div>
+        <div class="brand-text">
+          <div class="brand-name">triggerGG.net</div>
+          <div class="brand-online"><span id="onlineCount">342</span></div>
+        </div>
+      </a>
+
+      <div class="feed-wrap" id="feedWrap"></div>
+
+      <div class="top-actions">
+        <button class="steam-btn" id="steamLoginBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2a10 10 0 0 0-9.95 9.1l5.36 2.22a2.83 2.83 0 0 1 1.6-.5l2.39-3.46v-.05a3.77 3.77 0 1 1 3.77 3.77h-.09l-3.4 2.43a2.84 2.84 0 0 1-5.66-.23L2.2 15.1A10 10 0 1 0 12 2Z"/>
+          </svg>
+          <span id="steamBtnLabel">ZALOGUJ SIĘ PRZEZ STEAM</span>
+        </button>
+
+        <button class="icon-btn" id="openCartBtn" title="Koszyk">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container">
+    <!-- CATEGORIES -->
+    <section>
+      <h1 class="section-title">SZYBKO I BEZPIECZNIE</h1>
+      <div class="section-sub"><span>✓</span> Ekspresowa realizacja i wygodne zakupy</div>
+
+      <div class="cat-grid">
+        <div class="cat-card cat-coins" data-filter="coins">
+          <div class="cat-art" id="catArtCoins"></div>
+          <div class="cat-footer">
+            <span class="cat-label">COINSY</span>
+            <span class="cat-arrow">›</span>
+          </div>
+        </div>
+
+        <div class="cat-card cat-vehicles" data-filter="vehicles">
+          <div class="cat-art" id="catArtVehicles"></div>
+          <div class="cat-footer">
+            <span class="cat-label">POJAZDY</span>
+            <span class="cat-arrow">›</span>
+          </div>
+        </div>
+
+        <div class="cat-card cat-ranks" data-filter="ranks">
+          <div class="cat-art" id="catArtRanks"></div>
+          <div class="cat-footer">
+            <span class="cat-label">RANGI</span>
+            <span class="cat-arrow">›</span>
+          </div>
+        </div>
+
+        <div class="cat-card cat-unbans" data-filter="unbans">
+          <div class="cat-art" id="catArtUnbans"></div>
+          <div class="cat-footer">
+            <span class="cat-label">UNBANY</span>
+            <span class="cat-arrow">›</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUNDLE CAROUSEL -->
+    <section class="bundle-panel">
+      <div class="bundle-thumbs-col">
+        <button class="thumb-step-btn" id="prevBundleBtn">▲</button>
+        <div id="bundleThumbs" style="display:flex;flex-direction:column;gap:8px;width:100%;"></div>
+        <button class="thumb-step-btn" id="nextBundleBtn">▼</button>
+      </div>
+
+      <div class="bundle-stage" id="bundleStage"></div>
+
+      <div class="bundle-info">
+        <h3 id="bundleTitle">ZESTAW GRACZA</h3>
+        <p id="bundleDesc">Zestaw zawiera: Ranga Support, Pojazd z salonu i Trigger Coins x2800</p>
+        <div class="bundle-cta-row">
+          <button class="btn-green" id="bundleBuyNowBtn">KUP TERAZ 149,99 ZŁ</button>
+          <button class="btn-cart-square" id="bundleAddCartBtn" title="Dodaj do koszyka">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+          </button>
+          <div class="bundle-price-note" id="bundleSavings">
+            Cena bez zestawu: <s>200.00 zł</s><br>
+            <strong>oszczędzasz około 50 zł</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ITEMS -->
+    <section class="items-section" id="itemsSection">
+      <h2 class="section-title">PRZEDMIOTY</h2>
+
+      <div class="filter-bar">
+        <div class="filter-tabs" id="filterTabs">
+          <button class="filter-tab active" data-filter="all">WSZYSTKIE</button>
+          <button class="filter-tab" data-filter="coins">COINSY</button>
+          <button class="filter-tab" data-filter="vehicles">POJAZDY</button>
+          <button class="filter-tab" data-filter="ranks">RANGI</button>
+          <button class="filter-tab" data-filter="unbans">UNBANY</button>
+        </div>
+
+        <select class="sort-select" id="sortSelect">
+          <option value="featured">POLECANE</option>
+          <option value="price-asc">CENA: ROSNĄCO</option>
+          <option value="price-desc">CENA: MALEJĄCO</option>
+        </select>
+      </div>
+
+      <div class="products-grid" id="productsGrid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    triggerGG.net • Sklep serwerowy • Płatności błyskawiczne
+  </footer>
+
+  <!-- CART DRAWER -->
+  <div class="drawer-backdrop" id="cartDrawerBackdrop">
+    <aside class="cart-drawer" onclick="event.stopPropagation()">
+      <div>
+        <div class="drawer-head">
+          <h3>TWÓJ KOSZYK</h3>
+          <button class="close-btn" id="closeCartBtn">×</button>
+        </div>
+        <div class="cart-list" id="cartList"></div>
+      </div>
+      <div class="drawer-foot">
+        <div class="total-line">
+          <span>RAZEM:</span>
+          <span id="cartTotal">0,00 zł</span>
+        </div>
+        <button class="btn-green" style="width:100%;padding:12px;" id="checkoutBtn">PRZEJDŹ DO PŁATNOŚCI</button>
+      </div>
+    </aside>
+  </div>
+
+  <div class="toast-box" id="toastBox"></div>
+
+  <script>
+    const FEED_ITEMS = [
+      { user: "w*scamer", prod: "TRIGGER COINS", color: "#ea580c", initial: "W" },
+      { user: "h2ssg", prod: "TRIGGER COINS", color: "#2563eb", initial: "H" },
+      { user: "h2ssg", prod: "CUSTOMOWE P...", color: "#9333ea", initial: "H" },
+      { user: "DZORDZ", prod: "TRIGGER COINS", color: "#ca8a04", initial: "D" },
+      { user: "piotrek organy", prod: "ZWOLNIENIE Z P...", color: "#16a34a", initial: "P" }
+    ];
+
+    const BUNDLES = [
+      {
+        id: "bundle-admin",
+        shortLabel: "ADMINISTRATOR",
+        title: "ZESTAW ADMINISTRATORA",
+        desc: "Zestaw zawiera: Ranga Admin, auto z pakietu VIP i Trigger Coins x4500",
+        price: 199.99,
+        oldPrice: 265.00,
+        savedText: "oszczędzasz około 65 zł",
+        accent: "#ef4444",
+        tag: "ADMIN"
+      },
+      {
+        id: "bundle-support",
+        shortLabel: "SUPPORT",
+        title: "ZESTAW GRACZA",
+        desc: "Zestaw zawiera: Ranga Support, Pojazd z salonu i Trigger Coins x2800",
+        price: 149.99,
+        oldPrice: 200.00,
+        savedText: "oszczędzasz około 50 zł",
+        accent: "#22c55e",
+        tag: "SUPPORT"
+      },
+      {
+        id: "bundle-unban",
+        shortLabel: "UNBAN VIP",
+        title: "ZESTAW DRUGA SZANSA",
+        desc: "Zestaw zawiera: Unban (bany perm), Ranga Trial Support i Trigger Coins x1500",
+        price: 119.99,
+        oldPrice: 155.00,
+        savedText: "oszczędzasz około 35 zł",
+        accent: "#f59e0b",
+        tag: "UNBAN"
+      }
+    ];
+
+    const PRODUCTS = [
+      // COINSY
+      { id: "c-40k", cat: "coins", badge: "okazja", title: "40000 TRIGGER COINS", price: 350.00, desc: "Ogromny zapas waluty serwerowej na auta, ulepszenia i wymiany.", artType: "coins", amount: "40000", c1: "#facc15", c2: "#f97316" },
+      { id: "c-22k", cat: "coins", badge: "okazja", title: "22000 TRIGGER COINS", price: 200.00, desc: "Duży pakiet Trigger Coins dostarczany od razu na konto gracza.", artType: "coins", amount: "22000", c1: "#fbbf24", c2: "#ea580c" },
+      { id: "c-10k", cat: "coins", badge: "polecane", title: "10000 TRIGGER COINS", price: 99.99, desc: "Solidny pakiet waluty na start lub szybkie doposażenie postaci.", artType: "coins", amount: "10000", c1: "#fde047", c2: "#d97706" },
+      { id: "c-5k", cat: "coins", badge: null, title: "5000 TRIGGER COINS", price: 54.99, desc: "Średni pakiet Trigger Coins na codzienne wydatki na serwerze.", artType: "coins", amount: "5000", c1: "#facc15", c2: "#ca8a04" },
+
+      // POJAZDY
+      { id: "v-gt", cat: "vehicles", badge: "polecane", title: "TURBO GT COUPE", price: 129.99, desc: "Szybkie coupe z mocnym przyspieszeniem i sportowym prowadzeniem.", artType: "car", c1: "#38bdf8", c2: "#1d4ed8" },
+      { id: "v-hyper", cat: "vehicles", badge: "okazja", title: "PHANTOM X HYPER", price: 189.99, desc: "Ekskluzywny supersamochód o świetnej prędkości maksymalnej.", artType: "car", c1: "#c084fc", c2: "#7e22ce" },
+
+      // RANGI
+      { id: "r-trial", cat: "ranks", badge: null, title: "RANGA TRIAL SUPPORT", price: 29.99, desc: "Pierwszy stopień w ekipie wsparcia serwera oraz dostęp do kanałów zespołu.", artType: "rank", label: "TRIAL SUPPORT", c1: "#2dd4bf", c2: "#0d9488", c3: "#22c55e" },
+      { id: "r-support", cat: "ranks", badge: null, title: "RANGA SUPPORT", price: 59.99, desc: "Pomoc graczom, dostęp do komend wsparcia i wyróżnienie na serwerze.", artType: "rank", label: "SUPPORT", c1: "#a3e635", c2: "#16a34a", c3: "#06b6d4" },
+      { id: "r-mod", cat: "ranks", badge: null, title: "RANGA MODERATOR", price: 99.99, desc: "Rozszerzone uprawnienia moderacyjne, nadzór nad porządkiem i wsparcie graczy.", artType: "rank", label: "MODERATOR", c1: "#60a5fa", c2: "#2563eb", c3: "#a855f7" },
+      { id: "r-admin", cat: "ranks", badge: null, title: "RANGA ADMIN", price: 149.99, desc: "Pełne uprawnienia administracyjne na serwerze oraz dostęp do narzędzi zarządzania.", artType: "rank", label: "ADMIN", c1: "#fb7185", c2: "#e11d48", c3: "#f97316" },
+      { id: "r-headadmin", cat: "ranks", badge: null, title: "RANGA HEAD ADMIN", price: 199.99, desc: "Nadzorowanie pracy administracji, rozpatrywanie odwołań i zaawansowane komendy.", artType: "rank", label: "HEAD ADMIN", c1: "#f43f5e", c2: "#9f1239", c3: "#fbbf24" },
+      { id: "r-mgmt", cat: "ranks", badge: null, title: "RANGA MANAGEMENT", price: 299.99, desc: "Zarządzanie strukturami serwera, projektami oraz zespołem opiekunów.", artType: "rank", label: "MANAGEMENT", c1: "#c084fc", c2: "#7e22ce", c3: "#ec4899" },
+      { id: "r-righthand", cat: "ranks", badge: null, title: "RANGA PRAWA RĘKA", price: 399.99, desc: "Najbliższe wsparcie zarządu serwera, priorytetowy dostęp i pełne narzędzia.", artType: "rank", label: "PRAWA RĘKA", c1: "#fb923c", c2: "#dc2626", c3: "#facc15" },
+      { id: "r-supervise", cat: "ranks", badge: null, title: "RANGA NADZÓR SERWERA", price: 549.99, desc: "Twoim marzeniem jest zostanie administratorem? Możesz zakupić ową rolę i dołączyć w nasze szeregi!", artType: "rank", label: "NADZÓR SERWERA", c1: "#f59e0b", c2: "#ea580c", c3: "#ef4444" },
+      { id: "r-board", cat: "ranks", badge: "polecane", title: "RANGA GŁÓWNY ZARZĄD SERWERA", price: 999.99, desc: "Najwyższa ranga w hierarchii serwera z pełnym dostępem i prestiżową odznaką.", artType: "rank", label: "GŁÓWNY ZARZĄD", c1: "#eab308", c2: "#b45309", c3: "#a855f7" },
+
+      // UNBANY
+      { id: "u-perm", cat: "unbans", badge: "polecane", title: "UNBAN (BANY PERM)", price: 79.99, desc: "Zdjęcie blokady permanentnej i ponowne wejście na serwer triggerGG.net.", artType: "unban", label: "UNBAN", c1: "#38bdf8", c2: "#0284c7" },
+      { id: "u-temp", cat: "unbans", badge: null, title: "UNBAN CZASOWY", price: 39.99, desc: "Natychmiastowe zdjęcie aktywnej blokady czasowej bez czekania na koniec kary.", artType: "unban", label: "FAST UNBAN", c1: "#22d3ee", c2: "#2563eb" }
+    ];
+
+    function renderCoinsSVG(c1 = "#facc15", c2 = "#ea580c") {
+      return `
+        <svg viewBox="0 0 180 120" width="150" height="100">
+          <defs>
+            <linearGradient id="cg-${c1.replace('#','')}" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="${c1}"/>
+              <stop offset="100%" stop-color="${c2}"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="90" cy="96" rx="44" ry="12" fill="rgba(0,0,0,0.35)"/>
+          <ellipse cx="74" cy="76" rx="28" ry="9" fill="#9a3412"/>
+          <ellipse cx="74" cy="71" rx="28" ry="9" fill="url(#cg-${c1.replace('#','')})"/>
+          <ellipse cx="74" cy="64" rx="28" ry="9" fill="#b45309"/>
+          <ellipse cx="74" cy="59" rx="28" ry="9" fill="url(#cg-${c1.replace('#','')})"/>
+          <ellipse cx="106" cy="84" rx="30" ry="10" fill="#9a3412"/>
+          <ellipse cx="106" cy="78" rx="30" ry="10" fill="url(#cg-${c1.replace('#','')})"/>
+          <ellipse cx="106" cy="70" rx="30" ry="10" fill="#b45309"/>
+          <ellipse cx="106" cy="64" rx="30" ry="10" fill="url(#cg-${c1.replace('#','')})"/>
+          <circle cx="106" cy="64" r="7" fill="none" stroke="#fef08a" stroke-width="2"/>
+        </svg>
+      `;
+    }
+
+    function renderCarSVG(c1 = "#38bdf8", c2 = "#1d4ed8") {
+      return `
+        <svg viewBox="0 0 210 110" width="180" height="96">
+          <ellipse cx="105" cy="88" rx="76" ry="11" fill="rgba(0,0,0,0.4)"/>
+          <path d="M26 70 L38 52 L76 38 L128 38 L166 53 L184 64 L182 76 L26 76 Z" fill="${c1}"/>
+          <path d="M78 42 L124 42 L148 53 L64 53 Z" fill="#0f172a"/>
+          <path d="M26 70 L182 70 L182 77 L26 77 Z" fill="${c2}"/>
+          <polygon points="168,57 183,61 178,66 164,63" fill="#e0f2fe"/>
+          <circle cx="62" cy="76" r="15" fill="#090d16" stroke="#cbd5e1" stroke-width="3"/>
+          <circle cx="62" cy="76" r="6" fill="#94a3b8"/>
+          <circle cx="152" cy="76" r="15" fill="#090d16" stroke="#cbd5e1" stroke-width="3"/>
+          <circle cx="152" cy="76" r="6" fill="#94a3b8"/>
+        </svg>
+      `;
+    }
+
+    function renderCrownSVG() {
+      return `
+        <svg viewBox="0 0 160 115" width="140" height="100">
+          <ellipse cx="80" cy="94" rx="46" ry="10" fill="rgba(0,0,0,0.35)"/>
+          <path d="M30 78 L22 36 L54 56 L80 26 L106 56 L138 36 L130 78 Z" fill="#facc15" stroke="#ca8a04" stroke-width="3" stroke-linejoin="round"/>
+          <rect x="30" y="74" width="100" height="11" rx="5" fill="#eab308"/>
+          <circle cx="80" cy="64" r="6" fill="#ef4444"/>
+          <circle cx="52" cy="66" r="4.5" fill="#38bdf8"/>
+          <circle cx="108" cy="66" r="4.5" fill="#22c55e"/>
+        </svg>
+      `;
+    }
+
+    function renderLockSVG(c1 = "#38bdf8", c2 = "#0284c7") {
+      return `
+        <svg viewBox="0 0 150 115" width="130" height="100">
+          <ellipse cx="75" cy="98" rx="38" ry="9" fill="rgba(0,0,0,0.35)"/>
+          <path d="M50 52 V36 A25 25 0 0 1 100 36 V48" fill="none" stroke="#e2e8f0" stroke-width="9" stroke-linecap="round"/>
+          <rect x="40" y="50" width="70" height="44" rx="11" fill="${c1}" stroke="${c2}" stroke-width="2"/>
+          <circle cx="75" cy="68" r="6" fill="#0f172a"/>
+          <rect x="72" y="72" width="6" height="11" rx="2" fill="#0f172a"/>
+        </svg>
+      `;
+    }
+
+    function renderRankBadgeSVG(p) {
+      const sizeClass = p.label.length > 11 ? "14" : p.label.length > 8 ? "17" : "21";
+      return `
+        <svg viewBox="0 0 220 110" width="190" height="96">
+          <defs>
+            <linearGradient id="rg-${p.id}" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="${p.c1}"/>
+              <stop offset="55%" stop-color="${p.c2}"/>
+              <stop offset="100%" stop-color="${p.c3}"/>
+            </linearGradient>
+          </defs>
+          <path d="M20 66 Q65 24 110 56 T200 44" fill="none" stroke="url(#rg-${p.id})" stroke-width="14" stroke-linecap="round" opacity="0.85"/>
+          <path d="M26 74 Q75 94 125 62 T196 72" fill="none" stroke="${p.c3}" stroke-width="10" stroke-linecap="round" opacity="0.75"/>
+          <text x="110" y="63" text-anchor="middle" fill="#ffffff" stroke="#090d16" stroke-width="5" paint-order="stroke"
+                font-family="Montserrat, sans-serif" font-weight="900" font-style="italic" font-size="${sizeClass}">
+            ${p.label}
+          </text>
+        </svg>
+      `;
+    }
+
+    function renderProductArt(p) {
+      if (p.artType === "coins") return renderCoinsSVG(p.c1, p.c2);
+      if (p.artType === "car") return renderCarSVG(p.c1, p.c2);
+      if (p.artType === "unban") return renderLockSVG(p.c1, p.c2);
+      return renderRankBadgeSVG(p);
+    }
+
+    // State
+    let activeFilter = "all";
+    let activeSort = "featured";
+    let activeBundleIdx = 1;
+    let feedOffset = 0;
+    let cart = [];
+    let steamLoggedIn = false;
+
+    const toastBox = document.getElementById("toastBox");
+    let toastTimer = null;
+    function showToast(msg) {
+      toastBox.textContent = msg;
+      toastBox.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastBox.classList.remove("show"), 2600);
+    }
+
+    // Top categories art
+    document.getElementById("catArtCoins").innerHTML = renderCoinsSVG("#facc15", "#f59e0b");
+    document.getElementById("catArtVehicles").innerHTML = renderCarSVG("#f8fafc", "#38bdf8");
+    document.getElementById("catArtRanks").innerHTML = renderCrownSVG();
+    document.getElementById("catArtUnbans").innerHTML = renderLockSVG("#e2e8f0", "#38bdf8");
+
+    // Feed render
+    function renderFeed() {
+      const wrap = document.getElementById("feedWrap");
+      const ordered = [...FEED_ITEMS.slice(feedOffset), ...FEED_ITEMS.slice(0, feedOffset)];
+      wrap.innerHTML = ordered.map(item => `
+        <div class="feed-item">
+          <div class="feed-avatar" style="background:${item.color}">${item.initial}</div>
+          <div class="feed-meta">
+            <span class="feed-user">${item.user}</span>
+            <span class="feed-prod">${item.prod}</span>
+          </div>
+        </div>
+      `).join("") + `<button class="feed-next-btn" id="feedNextBtn" title="Następne">›</button>`;
+
+      document.getElementById("feedNextBtn").onclick = () => {
+        feedOffset = (feedOffset + 1) % FEED_ITEMS.length;
+        renderFeed();
+      };
+    }
+
+    // Bundles render
+    function renderBundles() {
+      const thumbsEl = document.getElementById("bundleThumbs");
+      thumbsEl.innerHTML = BUNDLES.map((b, idx) => `
+        <div class="bundle-thumb ${idx === activeBundleIdx ? "active" : ""}" data-idx="${idx}">
+          <span style="font-family:Montserrat,sans-serif;font-weight:900;font-style:italic;font-size:11px;color:#fff;letter-spacing:0.3px;">
+            ${b.shortLabel}
+          </span>
+        </div>
+      `).join("");
+
+      thumbsEl.querySelectorAll(".bundle-thumb").forEach(el => {
+        el.onclick = () => {
+          activeBundleIdx = Number(el.dataset.idx);
+          renderBundles();
+        };
+      });
+
+      const b = BUNDLES[activeBundleIdx];
+      document.getElementById("bundleStage").innerHTML = `
+        <div style="text-align:center;">
+          ${renderRankBadgeSVG({ id: b.id, label: b.shortLabel, c1: b.accent, c2: "#7e22ce", c3: "#facc15" })}
+          <div style="margin-top:-6px;">${renderCarSVG("#38bdf8", "#2563eb")}</div>
+        </div>
+      `;
+      document.getElementById("bundleTitle").textContent = b.title;
+      document.getElementById("bundleDesc").textContent = b.desc;
+      document.getElementById("bundleBuyNowBtn").textContent = `KUP TERAZ ${b.price.toFixed(2).replace(".", ",")} ZŁ`;
+      document.getElementById("bundleSavings").innerHTML = `
+        Cena bez zestawu: <s>${b.oldPrice.toFixed(2)} zł</s><br>
+        <strong>${b.savedText}</strong>
+      `;
+    }
+
+    // Products render
+    function renderProducts() {
+      const grid = document.getElementById("productsGrid");
+      let list = activeFilter === "all" ? [...PRODUCTS] : PRODUCTS.filter(p => p.cat === activeFilter);
+
+      if (activeSort === "price-asc") list.sort((a, b) => a.price - b.price);
+      if (activeSort === "price-desc") list.sort((a, b) => b.price - a.price);
+
+      grid.innerHTML = list.map(p => {
+        const pillHtml = p.badge === "okazja"
+          ? `<span class="top-pill pill-okazja">OKAZJA</span>`
+          : p.badge === "polecane"
+          ? `<span class="top-pill pill-polecane">POLECANE</span>`
+          : "";
+
+        return `
+          <article class="product-card" data-id="${p.id}">
+            ${pillHtml}
+            <button class="mini-cart-btn" data-add="${p.id}" title="Dodaj do koszyka" onclick="event.stopPropagation()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+            </button>
+
+            <div class="product-art">${renderProductArt(p)}</div>
+
+            <div class="product-meta">
+              <div class="product-title">${p.title}</div>
+              <div class="product-price">${p.price.toFixed(2).replace(".", ",")} zł</div>
+            </div>
+
+            <div class="product-expand">
+              <div class="product-desc">${p.desc}</div>
+              <button class="buy-sm-btn" data-buy="${p.id}" onclick="event.stopPropagation()">KUP TERAZ</button>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      grid.querySelectorAll(".product-card").forEach(card => {
+        card.onclick = () => card.classList.toggle("expanded");
+      });
+
+      grid.querySelectorAll("[data-add]").forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          addToCart(btn.dataset.add);
+        };
+      });
+
+      grid.querySelectorAll("[data-buy]").forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          addToCart(btn.dataset.buy, true);
+        };
+      });
+    }
+
+    // Cart logic
+    function addToCart(id, openDrawer = false) {
+      let item = PRODUCTS.find(p => p.id === id);
+      if (!item) {
+        const b = BUNDLES.find(x => x.id === id);
+        if (b) item = { id: b.id, title: b.title, price: b.price };
+      }
+      if (!item) return;
+
+      const existing = cart.find(x => x.id === item.id);
+      if (existing) existing.qty += 1;
+      else cart.push({ id: item.id, title: item.title, price: item.price, qty: 1 });
+
+      updateCartUI();
+      showToast(`Dodano: ${item.title}`);
+      if (openDrawer) openCart();
+    }
+
+    function changeQty(id, delta) {
+      const idx = cart.findIndex(x => x.id === id);
+      if (idx === -1) return;
+      cart[idx].qty += delta;
+      if (cart[idx].qty <= 0) cart.splice(idx, 1);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const totalQty = cart.reduce((acc, x) => acc + x.qty, 0);
+      const totalPrice = cart.reduce((acc, x) => acc + x.price * x.qty, 0);
+      document.getElementById("cartBadge").textContent = totalQty;
+      document.getElementById("cartTotal").textContent = `${totalPrice.toFixed(2).replace(".", ",")} zł`;
+
+      const listEl = document.getElementById("cartList");
+      if (!cart.length) {
+        listEl.innerHTML = `<div style="color:#64748b;font-size:12px;text-align:center;padding:30px 10px;">Koszyk jest pusty.</div>`;
+        return;
+      }
+
+      listEl.innerHTML = cart.map(item => `
+        <div class="cart-row">
+          <div>
+            <div class="cart-row-title">${item.title}</div>
+            <div class="cart-row-price">${(item.price * item.qty).toFixed(2).replace(".", ",")} zł</div>
+          </div>
+          <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
+            <span style="font-size:12px;font-weight:700;min-width:16px;text-align:center;">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function setFilter(filterVal) {
+      activeFilter = filterVal;
+      document.querySelectorAll(".filter-tab").forEach(t => {
+        t.classList.toggle("active", t.dataset.filter === filterVal);
+      });
+      renderProducts();
+      document.getElementById("itemsSection").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    document.querySelectorAll(".cat-card").forEach(card => {
+      card.onclick = () => setFilter(card.dataset.filter);
+    });
+
+    document.querySelectorAll(".filter-tab").forEach(tab => {
+      tab.onclick = () => setFilter(tab.dataset.filter);
+    });
+
+    document.getElementById("sortSelect").onchange = (e) => {
+      activeSort = e.target.value;
+      renderProducts();
+    };
+
+    document.getElementById("prevBundleBtn").onclick = () => {
+      activeBundleIdx = (activeBundleIdx - 1 + BUNDLES.length) % BUNDLES.length;
+      renderBundles();
+    };
+
+    document.getElementById("nextBundleBtn").onclick = () => {
+      activeBundleIdx = (activeBundleIdx + 1) % BUNDLES.length;
+      renderBundles();
+    };
+
+    document.getElementById("bundleAddCartBtn").onclick = () => {
+      addToCart(BUNDLES[activeBundleIdx].id, false);
+    };
+
+    document.getElementById("bundleBuyNowBtn").onclick = () => {
+      addToCart(BUNDLES[activeBundleIdx].id, true);
+    };
+
+    const drawerBackdrop = document.getElementById("cartDrawerBackdrop");
+    function openCart() { drawerBackdrop.classList.add("open"); }
+    function closeCart() { drawerBackdrop.classList.remove("open"); }
+
+    document.getElementById("openCartBtn").onclick = openCart;
+    document.getElementById("closeCartBtn").onclick = closeCart;
+    drawerBackdrop.onclick = closeCart;
+
+    document.getElementById("checkoutBtn").onclick = () => {
+      if (!cart.length) {
+        showToast("Najpierw dodaj przedmiot do koszyka.");
+        return;
+      }
+      cart = [];
+      updateCartUI();
+      closeCart();
+      showToast("Zamówienie złożone na triggerGG.net!");
+    };
+
+    document.getElementById("steamLoginBtn").onclick = () => {
+      steamLoggedIn = !steamLoggedIn;
+      document.getElementById("steamBtnLabel").textContent = steamLoggedIn
+        ? "GRACZ_TRIGGERGG"
+        : "ZALOGUJ SIĘ PRZEZ STEAM";
+      showToast(steamLoggedIn ? "Zalogowano przez Steam." : "Wylogowano ze Steam.");
+    };
+
+    // Init
+    renderFeed();
+    renderBundles();
+    renderProducts();
+    updateCartUI();
+  </script>
+</body>
+</html>
